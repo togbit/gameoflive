@@ -42,7 +42,7 @@ class Grass {
             this.multiply = 0;
 
         }
-        
+
     }
 
 
@@ -427,7 +427,7 @@ class Kerpar$ {
                 var newY = newCell[1];
 
                 matrix[newY][newX] = matrix[this.y][this.x];
-                matrix[this.y][this.x] = new Grass(this.x,this.y, 1);
+                matrix[this.y][this.x] = new Grass(this.x, this.y, 1);
                 this.x = newX;
                 this.y = newY;
                 this.acted = true;
