@@ -1,4 +1,5 @@
-class Kerpar extends LivingCreature {
+let LivingCreature = require("./LivingCreature")
+module.exports = class Kerpar extends LivingCreature {
     constructor(x, y, index) {
         super(x, y, index);
         this.energy = 8;
