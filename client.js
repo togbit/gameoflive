@@ -1,9 +1,12 @@
 var socket = io();
 side = 30
 function setup(){
-    createCanvas(matrix[0].length * side, matrix.length * side);
+    createCanvas(20 * side, 20 * side);
     background('#acacac')
 }
+socket.on("weather", function (data) {
+    weath = data;
+})
 function nkarel(matrix){
     console.log(matrix);
 
@@ -47,3 +50,13 @@ function nkarel(matrix){
     }
 }
     socket.on('send matrix', nkarel)
+
+    function kill() {
+        socket.emit("kill")
+    }
+    function addGrass() {
+        socket.emit("add grass")
+    }
+    function addGrassEater() {
+        socket.emit("add grassEater")
+    }

@@ -111,10 +111,24 @@ function draw() {
                 matrix[y][x].move();
 
             }
-
         }
     }
-
 }
+io.on('connection', function (socket) {
+    createObject();
+    socket.on("kill", kill);
+    socket.on("add grass", addGrass);
+    socket.on("add grassEater", addGrassEater);
+});
 
+
+var statistics = {};
+
+setInterval(function() {
+    statistics.grass = grassArr.length;
+    statistics.grassEater = grassEaterArr.length;
+    fs.writeFile("statistics.json", JSON.stringify(statistics), function(){
+        console.log("send")
+    })
+},1000)
 

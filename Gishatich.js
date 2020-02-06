@@ -33,67 +33,81 @@ module.exports = class Gishatich extends LivingCreature {
 
         ];
     }
-    chooseCell(character) {
-        this.getNewCoordinates();
-        return super.chooseCell(character);
-    }
     move() {
-        var newCell = random(this.chooseCell(0));
-        if (this.acted == false) {
-            if (newCell) {
-                var newX = newCell[0];
-                var newY = newCell[1];
+		var emptyCells = super.chooseCell(0);
+		var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
-                matrix[newY][newX] = matrix[this.y][this.x];
-                matrix[this.y][this.x] = 0;
-                this.x = newX;
-                this.y = newY;
-                this.acted = true;
+		if (newCell) {
+			var newX = newCell[0];
+			var newY = newCell[1];
 
-            }
-            this.energy--;
-            if (this.energy <= 0) {
-                this.die();
-            }
+			matrix[newY][newX] = matrix[this.y][this.x];
+			matrix[this.y][this.x] = 0;
 
-        }
+			this.x = newX;
+			this.y = newY
+		}
 
-    }
-    eat() {
-        if (this.acted == false) {
-            var newCell = random(this.chooseCell(2));
-            if (newCell) {
-                var newX = newCell[0];
-                var newY = newCell[1];
-                matrix[newY][newX] = matrix[this.y][this.x];
-                matrix[this.y][this.x] = 0;
-                this.x = newX;
-                this.y = newY;
-                this.energy++;
-                if (this.energy <= 25) {
-                    //this.mul();
-                    this.energy = 10;
-                }
-                this.acted = true;
+		this.energy--;
+		if (this.energy <= 0) {
+			this.die();
+		}
 
-            }
 
-            else {
-                this.move();
-            }
-        }
-    }
-    mul() {
-        var newCell = random(this.chooseCell(0));
+	}
+	eat() {
+		var GrassEaterCells = super.chooseCell(1);
+		var newCell = GrassEaterCells[Math.floor(Math.random() * GrassEaterCells.length)]
 
-        if (newCell) {
-            var newX = newCell[0];
-            var newY = newCell[1];
+		if (newCell) {
 
-            matrix[newY][newX] = new Gishatich(newX, newY, 3);
-        }
-    }
-    die() {
-        matrix[this.y][this.x] = 0;
-    }
+			var newX = newCell[0];
+			var newY = newCell[1];
+
+			matrix[newY][newX] = matrix[this.y][this.x];
+			matrix[this.y][this.x] = 0;
+
+			for (var i in grassArr) {
+				if (grassEaterArr[i].x == newX && grassEaterArr[i].y == newY) {
+					grassEaterArr.splice(i, 1)
+				}
+			}
+
+			this.x = newX;
+			this.y = newY;
+			this.energy++;
+
+			if (this.energy >= 12) {
+				this.mul();
+				this.energy = 8
+			}
+
+		}
+		else {
+			this.move();
+		}
+	}
+
+	mul() {
+		var emptyCells = super.chooseCell(0);
+		var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
+
+		if (newCell) {
+			var newX = newCell[0];
+			var newY = newCell[1];
+			matrix[newY][newX] = 3
+			GishatichArr.push(new Gishatich(newX, newY, 3))
+			this.energy = 6;
+		}
+		
+	}
+
+	die() {
+		matrix[this.y][this.x] = 0;
+		for (var i in GishatichArr) {
+			if (GishatichArr[i].x == this.x && GishatichArr[i].y == this.y) {
+				GishatichArr.splice(i, 1)
+			}
+		}
+	}
 }

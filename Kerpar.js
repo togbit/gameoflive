@@ -33,28 +33,28 @@ module.exports = class Kerpar extends LivingCreature {
 
         ];
     }
-    chooseCell(character) {
-        this.getNewCoordinates();
-        return super.chooseCell(character);
-    }
     move() {
+		var emptyCells = super.chooseCell(0);
+		var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
-        var newCell = random(this.chooseCell(0));
-        if (this.acted == false) {
-            if (newCell) {
-                var newX = newCell[0];
-                var newY = newCell[1];
+		if (newCell) {
+			var newX = newCell[0];
+			var newY = newCell[1];
 
-                matrix[newY][newX] = matrix[this.y][this.x];
-                matrix[this.y][this.x] = 0;
-                this.x = newX;
-                this.y = newY;
-                this.acted = true;
+			matrix[newY][newX] = matrix[this.y][this.x];
+			matrix[this.y][this.x] = 0;
 
-            }
+			this.x = newX;
+			this.y = newY
+		}
 
-        }
-    }
+		this.energy--;
+		if (this.energy <= 0) {
+			this.die();
+		}
+
+
+	}
 
     varak() {
         var newCell = random(this.chooseCell(3));
