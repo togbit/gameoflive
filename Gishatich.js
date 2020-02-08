@@ -32,8 +32,11 @@ module.exports = class Gishatich extends LivingCreature {
             [this.x - 1, this.y - 1],
 
         ];
-    }
-    move() {
+	}
+	
+
+
+	move() {
 		var emptyCells = super.chooseCell(0);
 		var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
@@ -67,7 +70,7 @@ module.exports = class Gishatich extends LivingCreature {
 			matrix[newY][newX] = matrix[this.y][this.x];
 			matrix[this.y][this.x] = 0;
 
-			for (var i in grassArr) {
+			for (var i in grassEaterArr) {
 				if (grassEaterArr[i].x == newX && grassEaterArr[i].y == newY) {
 					grassEaterArr.splice(i, 1)
 				}

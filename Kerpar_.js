@@ -33,28 +33,49 @@ module.exports = class Kerpar$ extends LivingCreature {
 
         ];
     }
-    chooseCell(character) {
-        this.getNewCoordinates();
-        return super.chooseCell(character);
-    }
     move() {
+        var emptyCells = super.chooseCell(0);
+        var newCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
 
-        var newCell = random(this.chooseCell(0));
+        if (newCell) {
+            var newX = newCell[0];
+            var newY = newCell[1];
 
-        this.multiply++;
-        if (this.acted == false) {
-            if (newCell && this.multiply >= 25) {
-                var newX = newCell[0];
-                var newY = newCell[1];
+            matrix[newY][newX] = matrix[this.y][this.x];
+            matrix[this.y][this.x] = 0;
 
-                matrix[newY][newX] = matrix[this.y][this.x];
-                matrix[this.y][this.x] = new Grass(this.x, this.y, 1);
-                this.x = newX;
-                this.y = newY;
-                this.acted = true;
+            this.x = newX;
+            this.y = newY
+        }
 
+
+
+
+    }
+    virus() {
+        var grassCells = super.chooseCell(4);
+        var newCell = grassCells[Math.floor(Math.random() * grassCells.length)]
+
+        if (newCell) {
+
+            var newX = newCell[0];
+            var newY = newCell[1];
+
+            matrix[newY][newX] = matrix[this.y][this.x];
+            matrix[this.y][this.x] = 6;
+
+            for (var i in KerparArr$) {
+                if (KerparArr$[i].x == newX && KerparArr$[i].y == newY) {
+                    KerparArr$.splice(i, 6)
+                }
             }
-
+            this.x = newX;
+            this.y = newY;
+            
+        }
+        else {
+            this.move();
         }
     }
+
 }

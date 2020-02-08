@@ -1,21 +1,27 @@
 var socket = io();
-side = 30
+side = 20
 function setup(){
-    createCanvas(20 * side, 20 * side);
+    createCanvas(40 * side, 40 * side);
     background('#acacac')
 }
 socket.on("weather", function (data) {
     weath = data;
 })
 function nkarel(matrix){
-    console.log(matrix);
+    
 
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             var obj = matrix[y][x];
             if (obj == 1) {
-                fill("green");
+                if(weath = "winter"){
+                    fill("#ffffff")
+                }
+                else{
+                    fill("green");
+                }
                 rect(x * side, y * side, side, side);
+                
             }
             else if (obj == 2) {
                 fill("yellow");

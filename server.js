@@ -15,25 +15,30 @@ GishatichArr = [];
 grassArr = [];
 grassEaterArr = [];
 matrix = [];
+KerparArr = [];
+KerparArr_ = [];
+KerparArr$ = [];
 
 var n = 50;
 
 weath = "winter";
-Grass = require("./Grass")
-GrassEater = require("./GrassEater")
-Gishatich = require("./Gishatich")
-//Kerpar = require("./Kerpar")
+Grass = require("./Grass");
+GrassEater = require("./GrassEater");
+Gishatich = require("./Gishatich");
+Kerpar = require("./Kerpar");
+Kerpar$ = require("./Kerpar$");
+Kerpar_ = require("./Kerpar_");
 
 function rand(min, max) {
     return Math.random() * (max - min) + min;
-  }
+}
 
 for (let i = 0; i < n; i++) {
     matrix[i] = [];
     for (let j = 0; j < n; j++) {
-        matrix[i][j] = Math.floor(rand(0,4))
-        
-    }  
+        matrix[i][j] = Math.floor(rand(0, 7))
+
+    }
 }
 
 io.sockets.emit("send matrix", matrix)
@@ -44,7 +49,7 @@ function createObject() {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
-                matrix[y][x] = 1 
+                matrix[y][x] = 1
                 grassArr.push(new Grass(x, y, 1))
             }
             else if (matrix[y][x] == 2) {
@@ -54,6 +59,18 @@ function createObject() {
             else if (matrix[y][x] == 3) {
                 matrix[y][x] = 3
                 GishatichArr.push(new Gishatich(x, y, 3))
+            }
+            else if (matrix[y][x] == 4) {
+                matrix[y][x] = 4
+                KerparArr.push(new Kerpar(x, y, 4))
+            }
+            else if (matrix[y][x] == 5) {
+                matrix[y][x] = 5
+                KerparArr_.push(new Kerpar_(x, y, 5))
+            }
+            else if (matrix[y][x] == 6) {
+                matrix[y][x] = 6
+                KerparArr$.push(new Kerpar$(x, y, 6))
             }
         }
     }
@@ -67,8 +84,17 @@ function game() {
     for (var i in grassEaterArr) {
         grassEaterArr[i].eat();
     }
-    for (var i in Gishatich) {
+    for (var i in GishatichArr) {
         GishatichArr[i].eat();
+    }
+    for (var i in KerparArr) {
+        KerparArr[i].varak();
+    }
+    for (var i in KerparArr_) {
+        KerparArr_[i].virus();
+    }
+    for (var i in KerparArr$) {
+        KerparArr$[i].move();
     }
     io.sockets.emit("send matrix", matrix);
 }
@@ -90,8 +116,8 @@ function kill() {
 
 function addGrass() {
     for (var i = 0; i < 7; i++) {
-    var x = Math.floor(Math.random() * matrix[0].length)
-    var y = Math.floor(Math.random() * matrix.length)
+        var x = Math.floor(Math.random() * matrix[0].length)
+        var y = Math.floor(Math.random() * matrix.length)
         if (matrix[y][x] == 0) {
             matrix[y][x] = 1
             var gr = new Grass(x, y, 1)
@@ -101,9 +127,9 @@ function addGrass() {
     io.sockets.emit("send matrix", matrix);
 }
 function addGrassEater() {
-    for (var i = 0; i < 7; i++) {   
-    var x = Math.floor(Math.random() * matrix[0].length)
-    var y = Math.floor(Math.random() * matrix.length)
+    for (var i = 0; i < 7; i++) {
+        var x = Math.floor(Math.random() * matrix[0].length)
+        var y = Math.floor(Math.random() * matrix.length)
         if (matrix[y][x] == 0) {
             matrix[y][x] = 2
             grassEaterArr.push(new GrassEater(x, y, 2))
@@ -111,9 +137,6 @@ function addGrassEater() {
     }
     io.sockets.emit("send matrix", matrix);
 }
-
-
-///new
 
 
 
@@ -147,10 +170,14 @@ io.on('connection', function (socket) {
 
 var statistics = {};
 
-setInterval(function() {
+setInterval(function () {
     statistics.grass = grassArr.length;
     statistics.grassEater = grassEaterArr.length;
-    fs.writeFile("statistics.json", JSON.stringify(statistics), function(){
+    statistics.Gishatich = GishatichArr.length;
+    statistics.Kerpar = KerparArr.length;
+    statistics.Kerpar$ = KerparArr$.length;
+    statistics.Kerpar_ = KerparArr_.length;
+    fs.writeFile("statistics.json", JSON.stringify(statistics), function () {
         console.log("send")
     })
-},1000)
+}, 1000)
