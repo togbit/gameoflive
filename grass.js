@@ -14,7 +14,6 @@ module.exports = class Grass extends LivingCreature {
                 grassArr.push(new Grass(x, y, 1))
                 this.multiply = 0;
             }
-            
     }
 }
 }

@@ -1,4 +1,3 @@
-
 let LivingCreature = require('./LivingCreature')
 
 module.exports = class GrassEater extends LivingCreature {
@@ -75,6 +74,7 @@ module.exports = class GrassEater extends LivingCreature {
 			this.energy = 6;
 		}
 		
+
 	}
 
 	die() {

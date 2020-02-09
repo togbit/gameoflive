@@ -4,9 +4,7 @@ function setup(){
     createCanvas(40 * side, 40 * side);
     background('#acacac')
 }
-socket.on("weather", function (data) {
-    weath = data;
-})
+
 function nkarel(matrix){
     
 
@@ -14,13 +12,11 @@ function nkarel(matrix){
         for (var x = 0; x < matrix[y].length; x++) {
             var obj = matrix[y][x];
             if (obj == 1) {
-                if(weath = "winter"){
-                    fill("#ffffff")
-                }
-                else{
-                    fill("green");
-                }
+               
+                fill("green");
                 rect(x * side, y * side, side, side);
+                matrix[y][x].acted = false;
+                
                 
             }
             else if (obj == 2) {
@@ -31,6 +27,7 @@ function nkarel(matrix){
             else if (obj == 0) {
                 fill("#acacac");
                 rect(x * side, y * side, side, side);
+                
             }
             else if (obj == 3) {
                 fill("red");
@@ -59,10 +56,4 @@ function nkarel(matrix){
 
     function kill() {
         socket.emit("kill")
-    }
-    function addGrass() {
-        socket.emit("add grass")
-    }
-    function addGrassEater() {
-        socket.emit("add grassEater")
     }

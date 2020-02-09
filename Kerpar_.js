@@ -53,29 +53,30 @@ module.exports = class Kerpar$ extends LivingCreature {
 
     }
     virus() {
-        var grassCells = super.chooseCell(4);
-        var newCell = grassCells[Math.floor(Math.random() * grassCells.length)]
+		var GrassEaterCells = super.chooseCell(4);
+		var newCell = GrassEaterCells[Math.floor(Math.random() * GrassEaterCells.length)]
 
-        if (newCell) {
+		if (newCell) {
 
-            var newX = newCell[0];
-            var newY = newCell[1];
+			var newX = newCell[0];
+			var newY = newCell[1];
 
-            matrix[newY][newX] = matrix[this.y][this.x];
+			matrix[newY][newX] = matrix[this.y][this.x];
             matrix[this.y][this.x] = 6;
 
             for (var i in KerparArr$) {
                 if (KerparArr$[i].x == newX && KerparArr$[i].y == newY) {
-                    KerparArr$.splice(i, 6)
+                    KerparArr$.splice(i, 1)
                 }
             }
-            this.x = newX;
-            this.y = newY;
-            
-        }
-        else {
-            this.move();
-        }
-    }
+
+			this.x = newX;
+			this.y = newY;
+
+		}
+		else {
+			this.move();
+		}
+	}
 
 }

@@ -51,8 +51,8 @@ module.exports = class Kerpar extends LivingCreature {
     }
 
     varak() {
-        var grassCells = super.chooseCell(3);
-        var newCell = grassCells[Math.floor(Math.random() * grassCells.length)]
+        var gishCells = super.chooseCell(2);
+        var newCell = gishCells[Math.floor(Math.random() * gishCells.length)]
 
         if (newCell) {
 
@@ -60,7 +60,7 @@ module.exports = class Kerpar extends LivingCreature {
             var newY = newCell[1];
 
             matrix[newY][newX] = matrix[this.y][this.x];
-            matrix[this.y][this.x] = 2;
+            matrix[this.y][this.x] = 3;
 
             for (var i in grassEaterArr) {
                 if (grassEaterArr[i].x == newX && grassEaterArr[i].y == newY) {
